@@ -33,8 +33,8 @@ PSInput VSMain(float4 position : POSITION, float2 uv : TEXCOORD)
 float4 PSMain(PSInput input) : SV_TARGET
 {
     float aspectRatio = resolution.x / resolution.y;
-    float magnifiedFactor = 6.0f;
-    float magnifiedAreaSize = 0.05f;
+    float magnifiedFactor = 24.0f;
+    float magnifiedAreaSize = 0.15f;
     float magnifiedAreaBorder = 0.005f;
 
     // check the distance between this pixel and mouse location in UV space. 
