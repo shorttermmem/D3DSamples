@@ -597,7 +597,7 @@ void D3D12SM6WaveIntrinsics::OnUpdate()
     static float time = 0;
     m_constantBufferData.orthProjMatrix = XMMatrixTranspose(XMMatrixOrthographicLH(2.0f*m_aspectRatio, 2.0f, 0.0f, 1.0f));  // Transpose from row-major to col-major, which by default is used in HLSL.
     m_constantBufferData.renderingMode = m_rendermode;
-    m_constantBufferData.laneSize = m_WaveIntrinsicsSupport.WaveLaneCountMin;
+    m_constantBufferData.laneSize = m_WaveIntrinsicsSupport.WaveLaneCountMax;
     m_constantBufferData.time = time;
     m_constantBufferData.mousePosition.x = m_mousePosition[0];
     m_constantBufferData.mousePosition.y = m_mousePosition[1];
