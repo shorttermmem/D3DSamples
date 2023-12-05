@@ -64,7 +64,7 @@ float4 PSMain(PSInput input) : SV_TARGET
         {
             // Example of query intrinsics: WaveGetLaneIndex
             // Gradiently color the wave block by their lane id. Black for the smallest lane id and White for the largest lane id.
-            outputColor = WaveGetLaneIndex() / float(laneSize);
+            outputColor = WaveGetLaneIndex() % 7 == 0 ? 0 : WaveGetLaneIndex() / float(laneSize);
             break;
         }
         case 3:
