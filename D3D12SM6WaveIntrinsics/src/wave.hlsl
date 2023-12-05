@@ -108,9 +108,22 @@ float4 PSMain(PSInput input) : SV_TARGET
             // Example of query intrinsics: WaveIsFirstLane
             // Mark the first active lane as white pixel. Mark the last active lane as red pixel.
             if (WaveIsFirstLane())
+            {
                 outputColor = float4(1., 1., 1., 1.);
-            if (WaveGetLaneIndex() == WaveActiveMax(WaveGetLaneIndex())) /////// the maximum value of the expression across all active lanes in the current wave and replicates it back to all active lanes.
-                outputColor = float4(1., 0., 0., 1.);
+                break;
+            }
+                
+            if (WaveGetLaneIndex() < 32)
+            {
+                if (WaveGetLaneIndex() % 7 == 0)
+                {
+                    outputColor = float4(0., 1., 0., 1.);
+                }
+                if (WaveGetLaneIndex() == WaveActiveMax(WaveGetLaneIndex())) /////// the maximum value of the expression across all active lanes in the current wave and replicates it back to all active lanes.
+                {
+                    outputColor = float4(1., 0., 0., 1.);
+                }   
+            }
             break;
         }
         case 5:
