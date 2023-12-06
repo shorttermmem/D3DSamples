@@ -57,6 +57,24 @@ float4 PSMain(PSInput input) : SV_TARGET
     {
         case 1:
         {
+            float i = 0;
+            if (int(input.position.x) % 2 == 0)
+            {
+                // active lanes, i is set to 1
+                i = 1;
+            }
+            else
+            {
+                // inactive lanes.   
+            }
+            
+            // WaveActiveSum(i) == 32 as half of 64 lanes are active and was set to 1.
+            float4 color = float4((WaveActiveSum(i) / 64.), 0., 0., 1.);
+            
+            if (WaveIsFirstLane())
+                // dark red, R is 0.5f
+                outputColor = color;
+            
             // Just pass through the color we generate before
             break;
         }
