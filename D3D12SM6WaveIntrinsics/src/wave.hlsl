@@ -179,7 +179,8 @@ float4 PSMain(PSInput input) : SV_TARGET
             // First, compute the prefix sum of distance each lane to first lane.
             // Then, use the prefix sum value to color each pixel.
             float4 basePos = WaveReadLaneFirst(input.position);
-            float4 prefixSumPos = WavePrefixSum(input.position - basePos); /////// sum of all of the values in the active lanes with smaller indices than this one
+            //float4 prefixSumPos = WavePrefixSum(input.position - basePos); /////// sum of all of the values in the active lanes with smaller indices than this one
+            float diffPos = WavePrefixSum(input.position.x - basePos.x);
             
             // Get the number of total active lanes.
             uint4 activeLaneMask = WaveActiveBallot(true); /////// a bitmask of the evaluation of the Boolean expression for all active lanes in the current wave. 
@@ -187,8 +188,7 @@ float4 PSMain(PSInput input) : SV_TARGET
                                                            /////// Only x,y channels are valid for Wavefront 32 & 64. 
                                                            /////// z,w channels are extensions for future Wavefront 128 support.
             uint numActiveLanes = countbits(activeLaneMask.x) + countbits(activeLaneMask.y) + countbits(activeLaneMask.z) + countbits(activeLaneMask.w);
-            
-            outputColor = prefixSumPos/numActiveLanes;
+            outputColor = float4(float(diffPos) / numActiveLanes, 0, 0, 1);
 
             break;
         }
